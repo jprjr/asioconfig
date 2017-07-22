@@ -1,0 +1,3 @@
+[submodule "iup"]
+	path = iup
+	url = https://github.com/jprjr/iup-build.git
