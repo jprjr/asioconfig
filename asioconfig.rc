@@ -47,7 +47,7 @@ END
 
 /* don't add this if building the DLL */
 #ifndef IUP_DLL
-#ifdef TEC_64
+#if defined(_WIN64) || defined(WIN64)
 1 24 "iup/deps/iup-3.22/etc/iup64.manifest"
 #else
 1 24 "iup/deps/iup-3.22/etc/iup.manifest"
