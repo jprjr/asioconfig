@@ -4,14 +4,13 @@ IUP_VER=3.22
 
 include iup/Makefile
 
-.PHONY: all asioconfig clean
+.PHONY: all asioconfig clean dist
 
 all: build/$(TARGET)/asioconfig.exe
 
-ASIO_INCDIRS = -Iasio/common -Iasio/host -Iasio/host/pc
-ASIO_FILES = asio/common/asio.cpp asio/host/pc/asiolist.cpp asio/host/asiodrivers.cpp
+ASIO_INCDIRS = -IASIOSDK2.3/common -IASIOSDK2.3/host -IASIOSDK2.3/host/pc
+ASIO_FILES = ASIOSDK2.3/common/asio.cpp ASIOSDK2.3/host/pc/asiolist.cpp ASIOSDK2.3/host/asiodrivers.cpp
 WINDOWS_LIBS = -lgdi32 -lcomdlg32 -lcomctl32 -luuid -loleaut32 -lole32
-
 
 
 build/$(TARGET)/asioconfig.exe: asioconfig.cpp $(LIBIUP) build/$(TARGET)/asioconfig.coff
@@ -20,9 +19,13 @@ build/$(TARGET)/asioconfig.exe: asioconfig.cpp $(LIBIUP) build/$(TARGET)/asiocon
 	$(TARGET_STRIP) $@
 	upx $@
 
-
 build/$(TARGET)/asioconfig.coff: asioconfig.rc
+	mkdir -p build/$(TARGET)
 	$(TARGET_WINDRES) -v -c 1252 asioconfig.rc -o $@
 
 clean:
 	rm -f build/$(TARGET)/*
+
+dist: build/$(TARGET)/asioconfig.exe
+	mkdir -p dist
+	cd build/$(TARGET) && zip asioconfig.zip asioconfig.exe

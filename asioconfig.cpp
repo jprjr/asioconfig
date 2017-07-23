@@ -6,10 +6,22 @@
 
 AsioDrivers *drivers;
 ASIODriverInfo my_info;
+Ihandle *dlg;
 
 static int doubleclick_handler(Ihandle *ih, int item, char *text) {
     my_info.sysRef = GetForegroundWindow();
     strcpy(my_info.name,text);
+    fprintf(stderr,"Attempting to init %s\n",text);
+    if(!drivers->loadDriver(text)) {
+        char *errormsg;
+        int errormsglen;
+        errormsglen = snprintf(0,0,"Unable to load driver for %s",text);
+        errormsg = (char *)malloc(sizeof(char) * (errormsglen + 1));
+        errormsglen = snprintf(errormsg,errormsglen+1,"Unable to load driver for %s",text);
+        IupMessageError(dlg,errormsg);
+        free(errormsg);
+    }
+
     ASIOInit(&my_info);
     ASIOControlPanel();
     return 0;
@@ -33,7 +45,7 @@ int main(int argc, char **argv) {
 
     my_info.asioVersion = 2;
 
-    Ihandle *dlg, *list;
+    Ihandle *list;
     IupOpen(&argc, &argv);
 
     list = IupList(0);

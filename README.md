@@ -9,9 +9,9 @@ Click the [releases tab](https://github.com/jprjr/asioconfig/releases) for downl
 ## Building
 
 First, you'll need to download the ASIO SDK and extracted it to the root of this
-repo as `asio`
+repo.
 
-Run `git submodule init` to pull in the `iup` folder.
+Run `git submodule update --init` to pull in the `iup` folder.
 
 Make sure you have a mingw cross-compiler installed, then run:
 

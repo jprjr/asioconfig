@@ -1,4 +1,5 @@
 /build
 *.exe
 *.res
-/asio
+/ASIOSDK2.3
+/asiosdk2.3.zip
