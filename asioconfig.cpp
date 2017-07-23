@@ -21,9 +21,10 @@ static int doubleclick_handler(Ihandle *ih, int item, char *text) {
         IupMessageError(dlg,errormsg);
         free(errormsg);
     }
-
-    ASIOInit(&my_info);
-    ASIOControlPanel();
+    else {
+      ASIOInit(&my_info);
+      ASIOControlPanel();
+    }
     return 0;
 }
 
@@ -45,8 +46,10 @@ int main(int argc, char **argv) {
 
     my_info.asioVersion = 2;
 
-    Ihandle *list;
+    Ihandle *list, *lbl;
     IupOpen(&argc, &argv);
+
+    lbl = IupLabel("Double-click to load control panel");
 
     list = IupList(0);
 
@@ -66,9 +69,11 @@ int main(int argc, char **argv) {
         }
     }
     IupSetCallback(list,"DBLCLICK_CB",(Icallback)doubleclick_handler);
+    IupSetAttribute(list, "EXPAND", "YES");
 
-    dlg = IupDialog(IupVbox(list,NULL));
-    IupSetAttribute(dlg, "TITLE", "Hello world");
+    dlg = IupDialog(IupVbox(lbl,list,NULL));
+    IupSetAttribute(dlg, "TITLE", "asioconfig");
+    IupSetAttribute(dlg, "MINSIZE", "300x300");
 
     IupShowXY(dlg, IUP_CENTER, IUP_CENTER);
 
